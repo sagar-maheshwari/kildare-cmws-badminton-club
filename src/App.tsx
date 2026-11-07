@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState, type KeyboardEvent } from 'react'
 import {
   Menu, X, ArrowUpRight, CalendarDays, Users, Trophy, BookOpen,
   FileText, MapPin, Mail, Facebook, ChevronRight, Download,
@@ -44,14 +44,64 @@ const ruleTopics = [
   ['Complaints', 'Complaints about club organisation or other members must be put in writing to the Secretary for discussion by the Club Committee.'],
 ]
 
+type Page = 'home' | 'playing' | 'club' | 'resources' | 'documents' | 'contact'
+
+const pageTitles: Record<Page, string> = {
+  home: 'Home',
+  playing: 'Playing schedule',
+  club: 'Club',
+  resources: 'Resources',
+  documents: 'Documents',
+  contact: 'Contact',
+}
+
+function getPageFromHash(): Page {
+  const route = window.location.hash.replace(/^#\/?/, '').split('/')[0] as Page
+  return Object.prototype.hasOwnProperty.call(pageTitles, route) ? route : 'home'
+}
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'constitution' | 'rules'>('constitution')
+  const [page, setPage] = useState<Page>(getPageFromHash)
 
   const closeMenu = () => setMenuOpen(false)
+  const handleDocumentTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    let nextTab: 'constitution' | 'rules'
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowLeft':
+        nextTab = activeTab === 'constitution' ? 'rules' : 'constitution'
+        break
+      case 'Home':
+        nextTab = 'constitution'
+        break
+      case 'End':
+        nextTab = 'rules'
+        break
+      default:
+        return
+    }
+    event.preventDefault()
+    setActiveTab(nextTab)
+    document.getElementById(`${nextTab}-tab`)?.focus()
+  }
+
+  useEffect(() => {
+    const syncPage = () => {
+      const nextPage = getPageFromHash()
+      setPage(nextPage)
+      document.title = `${pageTitles[nextPage]} | Kildare CMWS Badminton Club`
+      window.scrollTo(0, 0)
+    }
+    window.addEventListener('hashchange', syncPage)
+    syncPage()
+    return () => window.removeEventListener('hashchange', syncPage)
+  }, [])
+
   const navItems = [
-    ['About', '#about'], ['Events', '#events'], ['Club', '#club'], ['Training', '#training'],
-    ['Documents', '#documents'], ['Contact', '#contact']
+    ['Home', '#/home'], ['Playing schedule', '#/playing'], ['Club', '#/club'], ['Resources', '#/resources'],
+    ['Documents', '#/documents'], ['Contact', '#/contact']
   ]
 
   return (
@@ -65,21 +115,22 @@ function App() {
 
       <header className="header">
         <div className="container nav-wrap">
-          <a className="brand" href="#home" onClick={closeMenu} aria-label="Kildare CMWS home">
+          <a className="brand" href="#/home" onClick={closeMenu} aria-label="Kildare CMWS home">
             <img src={`${baseUrl}assets/club-logo.jpg`} alt="Kildare CMWS Badminton Club logo" />
             <span><strong>Kildare CMWS</strong><small>BADMINTON CLUB</small></span>
           </a>
-          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
+          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="primary-navigation">
             {menuOpen ? <X /> : <Menu />}
           </button>
-          <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
-            {navItems.map(([label, href]) => <a key={label} href={href} onClick={closeMenu}>{label}</a>)}
-            <a className="nav-cta" href="#contact" onClick={closeMenu}>Get in touch <ArrowUpRight size={15} /></a>
+          <nav id="primary-navigation" className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
+            {navItems.map(([label, href]) => <a key={label} href={href} onClick={closeMenu} aria-current={href === `#/${page}` ? 'page' : undefined}>{label}</a>)}
+            <a className="nav-cta" href="#/contact" onClick={closeMenu} aria-current={page === 'contact' ? 'page' : undefined}>Get in touch <ArrowUpRight size={15} /></a>
           </nav>
         </div>
       </header>
 
       <main>
+        {page === 'home' && <>
         <section className="hero" id="home">
           <div className="hero-court court-lines" aria-hidden="true">
             <div className="court-net" /><div className="court-circle" />
@@ -90,8 +141,8 @@ function App() {
             <h1>More than a game.<br /><em>It's our community.</em></h1>
             <p className="hero-copy">A welcoming badminton club bringing players together in Kildare. Whether you're picking up a racket for the first time or competing in league matches, there's a place for you here.</p>
             <div className="hero-actions">
-              <a className="button button-light" href="#contact">Get involved <ArrowUpRight size={17} /></a>
-              <a className="button button-outline" href="#events">Explore the club <ChevronRight size={17} /></a>
+              <a className="button button-light" href="#/contact">Get involved <ArrowUpRight size={17} /></a>
+              <a className="button button-outline" href="#/playing">Explore the club <ChevronRight size={17} /></a>
             </div>
             <div className="hero-note"><span className="note-line" /> PLAY · IMPROVE · BELONG</div>
           </div>
@@ -115,12 +166,13 @@ function App() {
             <div className="intro-text">
               <p>Our aim is to encourage and foster the game of badminton and provide playing opportunities for all levels of play. We value coaching, fair competition, participation and the friendships that grow around the court.</p>
               <p>Whether your goal is to learn the basics, sharpen your doubles game or represent the club in competition, Kildare CMWS is about enjoying the sport together.</p>
-              <a className="text-link" href="#club">Discover the club <ArrowUpRight size={16} /></a>
+              <a className="text-link" href="#/club">Discover the club <ArrowUpRight size={16} /></a>
             </div>
           </div>
         </section>
+        </>}
 
-        <section className="section dark-section" id="events">
+        {page === 'playing' && <section className="section dark-section" id="playing">
           <div className="container">
             <div className="section-heading light-heading">
               <div><div className="section-kicker">FIND US ON COURT</div><h2>Where we <em>play.</em></h2></div>
@@ -159,8 +211,9 @@ function App() {
               </figure>
             </div>
           </div>
-        </section>
+        </section>}
 
+        {page === 'club' && <>
         <section className="section club-section" id="club">
           <div className="container">
             <div className="section-heading">
@@ -178,8 +231,9 @@ function App() {
             </div>
           </div>
         </section>
+        </>}
 
-        <section className="training-band" id="training">
+        {page === 'resources' && <section className="training-band" id="training">
           <div className="container resources-heading">
             <div><div className="section-kicker">LEARN · CONNECT · COMPETE</div><h2>Badminton <em>resources.</em></h2></div>
             <p>A collection of useful links for players, coaches and club organisers, bringing together coaching support, official badminton organisations and competition platforms.</p>
@@ -215,18 +269,19 @@ function App() {
               </ul>
             </article>
           </div>
-        </section>
+        </section>}
 
-        <section className="section documents-section" id="documents">
+        {page === 'documents' && <section className="section documents-section" id="documents">
           <div className="container">
             <div className="section-heading">
               <div><div className="section-kicker">YOUR CLUB, YOUR INFORMATION</div><h2>Club <em>documents.</em></h2></div>
               <p>Access the club's governing document and playing rules. The club documents are available to view and download below.</p>
             </div>
             <div className="document-tabs" role="tablist" aria-label="Club documents">
-              <button className={activeTab === 'constitution' ? 'doc-tab active' : 'doc-tab'} onClick={() => setActiveTab('constitution')} role="tab" aria-selected={activeTab === 'constitution'}><ShieldCheck size={17} /> Constitution</button>
-              <button className={activeTab === 'rules' ? 'doc-tab active' : 'doc-tab'} onClick={() => setActiveTab('rules')} role="tab" aria-selected={activeTab === 'rules'}><ClipboardList size={17} /> Club rules</button>
+              <button id="constitution-tab" className={activeTab === 'constitution' ? 'doc-tab active' : 'doc-tab'} onClick={() => setActiveTab('constitution')} onKeyDown={handleDocumentTabKeyDown} role="tab" aria-selected={activeTab === 'constitution'} aria-controls="constitution-panel" tabIndex={activeTab === 'constitution' ? 0 : -1}><ShieldCheck size={17} /> Constitution</button>
+              <button id="rules-tab" className={activeTab === 'rules' ? 'doc-tab active' : 'doc-tab'} onClick={() => setActiveTab('rules')} onKeyDown={handleDocumentTabKeyDown} role="tab" aria-selected={activeTab === 'rules'} aria-controls="rules-panel" tabIndex={activeTab === 'rules' ? 0 : -1}><ClipboardList size={17} /> Club rules</button>
             </div>
+            <div id={`${activeTab}-panel`} role="tabpanel" aria-labelledby={`${activeTab}-tab`} tabIndex={0}>
             {activeTab === 'constitution' ? (
               <div className="document-panel">
                 <div className="document-cover constitution-cover"><div className="cover-logo"><img src={`${baseUrl}assets/club-logo.jpg`} alt="" /></div><span>OFFICIAL CLUB DOCUMENT</span><strong>Club<br />Constitution</strong><small>KILDARE CMWS BADMINTON CLUB</small><div className="cover-lines" /></div>
@@ -253,10 +308,11 @@ function App() {
               </div>
               <p className="summary-disclaimer">This is a navigation summary only. The original PDF is the authoritative source for the complete wording.</p>
             </div>
+            </div>
           </div>
-        </section>
+        </section>}
 
-        <section className="history-strip">
+        {page === 'club' && <section className="history-strip">
           <div className="container history-inner">
             <div className="history-icon"><Award size={28} /></div>
             <div className="history-intro"><span>ESTABLISHED 27 NOVEMBER 1973</span><h2>A proud history. A growing club. A love of badminton that brings generations together.</h2></div>
@@ -270,19 +326,19 @@ function App() {
             <article className="history-wide"><span>CLUB LEGACY</span><h3>Players, coaches and achievements</h3><p>The club's archive recognises the contributions of generations of players and volunteers. Esther Brady and Kathleen Kelly are noted for winning multiple Leinster doubles titles, while Esther also represented the county team. Coaching, junior development, club tournaments and social events have all played an important part in the club's story.</p></article>
           </div>
           <div className="container history-source">History adapted from the club's <a href="https://sites.google.com/site/kildarecmws/about-us/history?authuser=0" target="_blank" rel="noreferrer">historical archive</a> and <a href="https://sites.google.com/site/kildarecmws/about-us?authuser=0" target="_blank" rel="noreferrer">About Us page</a>. Membership figures and team counts from the older profile are historical snapshots, not current totals.</div>
-        </section>
+        </section>}
 
-        <section className="section contact-section" id="contact">
+        {page === 'contact' && <section className="section contact-section" id="contact">
           <div className="container contact-grid">
             <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">Interested in joining, trying a session or finding out more? Get in touch with the club and follow our updates.</p><a className="button button-dark" href={facebookUrl} target="_blank" rel="noreferrer"><Facebook size={17} /> Find us on Facebook <ArrowUpRight size={15} /></a></div>
             <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><p>Contact details to be confirmed by the club.</p></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
               <div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>TUESDAY & THURSDAY · CMWS HALL</small><p>8:00 PM - 11:00 PM · 1 court<br /><small className="muted">Subject to there being no league games.</small></p></div></div><div className="contact-card-bottom">WE LOOK FORWARD TO MEETING YOU ON COURT.</div></div>
           </div>
-        </section>
+        </section>}
       </main>
 
       <footer className="footer">
-        <div className="container footer-main"><a className="footer-brand" href="#home"><img src={`${baseUrl}assets/club-logo.jpg`} alt="" /><span><b>Kildare CMWS</b><small>BADMINTON CLUB</small></span></a><p>Play together. Compete together. Grow together.</p><div className="footer-social"><a href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook /></a><a href="#home" aria-label="Back to top"><ArrowUpRight /></a></div></div>
+        <div className="container footer-main"><a className="footer-brand" href="#/home"><img src={`${baseUrl}assets/club-logo.jpg`} alt="" /><span><b>Kildare CMWS</b><small>BADMINTON CLUB</small></span></a><p>Play together. Compete together. Grow together.</p><div className="footer-social"><a href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook /></a><a href="#/home" aria-label="Back to top"><ArrowUpRight /></a></div></div>
         <div className="container footer-bottom"><span>© {new Date().getFullYear()} Kildare CMWS Badminton Club</span><span>Built for the love of the game.</span><span className="developer-credit">Website developed by Sagar Maheshwari</span></div>
       </footer>
     </div>
