@@ -4,7 +4,7 @@ A responsive React + TypeScript website starter using the supplied Kildare CMWS 
 
 ## Run locally
 
-Requirements: Node.js 18+ (Node 20 or 22 recommended) and npm.
+Requirements: Node.js 24+ and npm.
 
 ```bash
 npm install
@@ -64,22 +64,3 @@ The supplied club logo is in `public/assets/club-logo.jpg`. The colour palette i
 ## Editing content
 
 The committee list, document summaries, Facebook link and page content are in `src/App.tsx`. Update the relevant values there, then run `npm run build`.
-
-
-## Latest content updates
-
-- Removed the club-photo placeholder section.
-- Added Monday playing details at Kildare Town Community School (8pm-10pm, four courts).
-- Added Tuesday/Thursday playing details at CMWS Hall (8pm-11pm, one court), subject to league fixtures.
-- Added a venue photograph using the Google Sites image URL supplied by the club.
-- Added a browser favicon based on the supplied club logo.
-- Replaced the training placeholder with coaching, governing body and competition resource links.
-- Added club history using the supplied legacy About Us and History pages.
-- Removed the year from the Club Rules page heading and filename.
-- Reworked the document summary layout to prevent text overlap.
-
-- The CMWS Hall photograph is stored locally at `public/assets/cmws-hall.jpg`; the website no longer depends on the Google Sites image URL.
-- Footer includes a small website developer credit for Sagar Maheshwari.
-
-- The supplied Kildare map screenshot is stored locally at `public/assets/cmws-hall-location-map.png` and is displayed beside the locally stored CMWS Hall photograph.
-- Badminton resource cards now link directly to the BWF coaching playlists, Badminton Ireland, Badminton Europe, BWF, Sport80 and Tournament Software. The Mayo Badminton resources page is not linked or referenced on the website.
