@@ -1,6 +1,6 @@
 import { useEffect, useState, type KeyboardEvent } from 'react'
 import {
-  Menu, X, ArrowUpRight, CalendarDays, Users, Trophy, BookOpen,
+  Menu, X, ArrowUpRight, ChevronLeft, CalendarDays, Users, Trophy, BookOpen,
   FileText, MapPin, Mail, Facebook, ChevronRight, Download,
   ExternalLink, ShieldCheck, Clock3, Dumbbell, Image as ImageIcon,
   HeartHandshake, Volleyball, Award, ClipboardList
@@ -44,16 +44,35 @@ const ruleTopics = [
   ['Complaints', 'Complaints about club organisation or other members must be put in writing to the Secretary for discussion by the Club Committee.'],
 ]
 
-type Page = 'home' | 'playing' | 'club' | 'resources' | 'documents' | 'contact'
+type Page = 'home' | 'playing' | 'club' | 'gallery' | 'resources' | 'documents' | 'contact'
 
 const pageTitles: Record<Page, string> = {
   home: 'Home',
   playing: 'Playing schedule',
   club: 'Club',
+  gallery: 'Club gallery',
   resources: 'Resources',
   documents: 'Documents',
   contact: 'Contact',
 }
+
+const galleryImages = [
+  {
+    src: 'dev 4 mens league winners 2018.jpg',
+    alt: 'Division 4 mens league winners, 2018',
+    caption: 'DDLC Div 4 Mens League Winners 2018',
+  },
+  {
+    src: 'div 9 cup winners 2025.jpg',
+    alt: 'Division 9 cup winners, 2025',
+    caption: 'DDLC Div 9 Mixed Cup Winners 2025',
+  },
+  {
+    src: 'div 9 league final winners 2025.jpg',
+    alt: 'Division 9 league final winners, 2025',
+    caption: 'DDLC Div 9 Mixed Leaguel Winners 2025',
+  },
+]
 
 function getPageFromHash(): Page {
   const route = window.location.hash.replace(/^#\/?/, '').split('/')[0] as Page
@@ -64,6 +83,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState<'constitution' | 'rules'>('constitution')
   const [page, setPage] = useState<Page>(getPageFromHash)
+  const [selectedGalleryIndex, setSelectedGalleryIndex] = useState<number | null>(null)
 
   const closeMenu = () => setMenuOpen(false)
   const handleDocumentTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
@@ -99,8 +119,32 @@ function App() {
     return () => window.removeEventListener('hashchange', syncPage)
   }, [])
 
+  useEffect(() => {
+    if (selectedGalleryIndex === null) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const handleGalleryKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setSelectedGalleryIndex(null)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        setSelectedGalleryIndex((selectedGalleryIndex + galleryImages.length - 1) % galleryImages.length)
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        setSelectedGalleryIndex((selectedGalleryIndex + 1) % galleryImages.length)
+      }
+    }
+
+    window.addEventListener('keydown', handleGalleryKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleGalleryKeyDown)
+    }
+  }, [selectedGalleryIndex])
+
   const navItems = [
-    ['Home', '#/home'], ['Playing schedule', '#/playing'], ['Club', '#/club'], ['Resources', '#/resources'],
+    ['Home', '#/home'], ['Playing schedule', '#/playing'], ['Club', '#/club'], ['Gallery', '#/gallery'], ['Resources', '#/resources'],
     ['Documents', '#/documents'], ['Contact', '#/contact']
   ]
 
@@ -328,18 +372,60 @@ function App() {
           <div className="container history-source">History adapted from the club's <a href="https://sites.google.com/site/kildarecmws/about-us/history?authuser=0" target="_blank" rel="noreferrer">historical archive</a> and <a href="https://sites.google.com/site/kildarecmws/about-us?authuser=0" target="_blank" rel="noreferrer">About Us page</a>. Membership figures and team counts from the older profile are historical snapshots, not current totals.</div>
         </section>}
 
+        {page === 'gallery' && <section className="section gallery-section">
+          <div className="container">
+            <div className="section-heading">
+              <div><div className="section-kicker">MOMENTS FROM OUR CLUB</div><h2>Club <em>gallery.</em></h2></div>
+              <p>Celebrating the people, teams and moments that make Kildare CMWS special.</p>
+            </div>
+            <div className="gallery-grid">
+              {galleryImages.map((image, index) => (
+                <figure className="gallery-card" key={image.src}>
+                  <button className="gallery-image-button" type="button" onClick={() => setSelectedGalleryIndex(index)} aria-label={`Expand image: ${image.alt}`}>
+                    <img src={`${baseUrl}assets/gallery/${image.src}`} alt={image.alt} loading="lazy" />
+                  </button>
+                  <figcaption className={image.caption ? 'gallery-caption' : 'gallery-caption gallery-caption-placeholder'}>
+                    {image.caption || 'No caption provided.'}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>}
+
         {page === 'contact' && <section className="section contact-section" id="contact">
           <div className="container contact-grid">
             <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">Interested in joining, trying a session or finding out more? Get in touch with the club and follow our updates.</p><a className="button button-dark" href={facebookUrl} target="_blank" rel="noreferrer"><Facebook size={17} /> Find us on Facebook <ArrowUpRight size={15} /></a></div>
-            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><p>Contact details to be confirmed by the club.</p></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
+            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><p>cmwsbckildare@gmail.com</p></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
               <div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>TUESDAY & THURSDAY · CMWS HALL</small><p>8:00 PM - 11:00 PM · 1 court<br /><small className="muted">Subject to there being no league games.</small></p></div></div><div className="contact-card-bottom">WE LOOK FORWARD TO MEETING YOU ON COURT.</div></div>
           </div>
         </section>}
       </main>
 
+      {selectedGalleryIndex !== null && (() => {
+        const image = galleryImages[selectedGalleryIndex]
+        return (
+          <div className="gallery-lightbox" onClick={() => setSelectedGalleryIndex(null)}>
+            <div className="gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-label={image.alt} onClick={(event) => event.stopPropagation()}>
+              <button className="gallery-lightbox-close" type="button" onClick={() => setSelectedGalleryIndex(null)} aria-label="Close image viewer"><X /></button>
+              <div className="gallery-lightbox-content">
+                <button className="gallery-lightbox-nav" type="button" onClick={() => setSelectedGalleryIndex((selectedGalleryIndex + galleryImages.length - 1) % galleryImages.length)} aria-label="Previous image"><ChevronLeft /></button>
+                <figure className="gallery-lightbox-figure">
+                  <img src={`${baseUrl}assets/gallery/${image.src}`} alt={image.alt} />
+                  <figcaption className={image.caption ? 'gallery-lightbox-caption' : 'gallery-lightbox-caption gallery-caption-placeholder'}>
+                    {image.caption || 'No caption provided.'}
+                  </figcaption>
+                </figure>
+                <button className="gallery-lightbox-nav" type="button" onClick={() => setSelectedGalleryIndex((selectedGalleryIndex + 1) % galleryImages.length)} aria-label="Next image"><ChevronRight /></button>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
+
       <footer className="footer">
         <div className="container footer-main"><a className="footer-brand" href="#/home"><img src={`${baseUrl}assets/club-logo.jpg`} alt="" /><span><b>Kildare CMWS</b><small>BADMINTON CLUB</small></span></a><p>Play together. Compete together. Grow together.</p><div className="footer-social"><a href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook /></a><a href="#/home" aria-label="Back to top"><ArrowUpRight /></a></div></div>
-        <div className="container footer-bottom"><span>© {new Date().getFullYear()} Kildare CMWS Badminton Club</span><span>Built for the love of the game.</span><span className="developer-credit">Website developed by Sagar Maheshwari</span></div>
+        <div className="container footer-bottom"><span>© {new Date().getFullYear()} Kildare CMWS Badminton Club</span><span className="developer-credit">Website developed by Sagar Maheshwari</span></div>
       </footer>
     </div>
   )

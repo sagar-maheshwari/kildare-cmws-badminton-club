@@ -42,7 +42,7 @@ deployment may take a few minutes to become available.
 - External coaching, governing body and competition resources
 - Club constitution and club rules with PDF view/download
 - Contact and Facebook link
-- Club history and future photo placeholders
+- Club history and a photo gallery
 
 ## Content still to confirm
 
@@ -51,7 +51,7 @@ deployment may take a few minutes to become available.
 - Club email address and membership enquiry process
 - Whether the 2023-2024 rules remain current
 - Whether the supplied constitution is the latest approved version
-- Club photographs (placeholders are intentionally used for now)
+- Gallery captions and any additional club photographs
 
 ## Documents
 
@@ -64,3 +64,5 @@ The supplied club logo is in `public/assets/club-logo.jpg`. The colour palette i
 ## Editing content
 
 The committee list, document summaries, Facebook link and page content are in `src/App.tsx`. Update the relevant values there, then run `npm run build`.
+
+Gallery images are stored in `public/assets/gallery/`. Add or remove images by editing the `galleryImages` list in `src/App.tsx`; each entry has an image path, descriptive alt text and an optional caption.
