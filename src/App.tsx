@@ -70,7 +70,7 @@ const galleryImages = [
   {
     src: 'div 9 league final winners 2025.jpg',
     alt: 'Division 9 league final winners, 2025',
-    caption: 'DDLC Div 9 Mixed Leaguel Winners 2025',
+    caption: 'DDLC Div 9 Mixed League Winners 2025',
   },
 ]
 
