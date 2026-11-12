@@ -37,6 +37,7 @@ deployment may take a few minutes to become available.
 ## Included sections
 
 - Home / club introduction
+- Recent Facebook Page posts embedded on the home page (Page Plugin)
 - Venue details and playing schedule
 - Committee
 - External coaching, governing body and competition resources

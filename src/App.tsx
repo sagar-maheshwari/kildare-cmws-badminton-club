@@ -3,10 +3,11 @@ import {
   Menu, X, ArrowUpRight, ChevronLeft, CalendarDays, Users, Trophy, BookOpen,
   FileText, MapPin, Mail, Facebook, ChevronRight, Download,
   ExternalLink, ShieldCheck, Clock3, Dumbbell, Image as ImageIcon,
-  HeartHandshake, Volleyball, Award, ClipboardList
+  HeartHandshake, Volleyball, Award, ClipboardList, MessageCircle
 } from 'lucide-react'
 
 const facebookUrl = 'https://www.facebook.com/profile.php?id=100057039956153'
+const curatorFeedScriptUrl = 'https://cdn.curator.io/published/2ad75dc0-e14f-400d-ac31-4615d169b515.js'
 const baseUrl = import.meta.env.BASE_URL
 
 const committee = [
@@ -120,6 +121,19 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (page !== 'home') return
+
+    const script = document.createElement('script')
+    script.async = true
+    script.charset = 'UTF-8'
+    script.src = curatorFeedScriptUrl
+    const firstScript = document.querySelector('script')
+    firstScript?.parentNode?.insertBefore(script, firstScript)
+
+    return () => script.remove()
+  }, [page])
+
+  useEffect(() => {
     if (selectedGalleryIndex === null) return
 
     const previousOverflow = document.body.style.overflow
@@ -183,7 +197,7 @@ function App() {
           <div className="container hero-content">
             <div className="eyebrow"><span className="eyebrow-dot" /> COMMUNITY · COMPETITION · SPORT</div>
             <h1>More than a game.<br /><em>It's our community.</em></h1>
-            <p className="hero-copy">A welcoming badminton club bringing players together in Kildare. Whether you're picking up a racket for the first time or competing in league matches, there's a place for you here.</p>
+            <p className="hero-copy">A welcoming badminton club bringing players together in Kildare. Whether you're picking up a racket for the first time or competing in league matches, there's a place for you here. New members are added via a waitlist, so please contact us before visiting a venue.</p>
             <div className="hero-actions">
               <a className="button button-light" href="#/contact">Get involved <ArrowUpRight size={17} /></a>
               <a className="button button-outline" href="#/playing">Explore the club <ChevronRight size={17} /></a>
@@ -214,6 +228,17 @@ function App() {
             </div>
           </div>
         </section>
+
+        <section className="section updates-section" id="updates">
+          <div className="container">
+            <div className="section-heading">
+              <div><h2>Latest <em>updates.</em></h2></div>
+            </div>
+            <div className="curator-feed" id="curator-feed-default-feed-layout">
+              <a href="https://curator.io" target="_blank" rel="noreferrer" className="crt-logo crt-tag">Powered by Curator.io</a>
+            </div>
+          </div>
+        </section>
         </>}
 
         {page === 'playing' && <section className="section dark-section" id="playing">
@@ -222,6 +247,10 @@ function App() {
               <div><div className="section-kicker">FIND US ON COURT</div><h2>Where we <em>play.</em></h2></div>
               <p>Join us for club badminton in Kildare Town. We use two venues during the week, with league fixtures taking priority on selected evenings.</p>
             </div>
+            <aside className="waitlist-notice">
+              <strong>New members: please join our waitlist before visiting a venue.</strong>
+              <span>Email <a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a> or WhatsApp club secretary Teresa at <a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702</a> to be added.</span>
+            </aside>
             <div className="venue-grid">
               <article className="venue-card">
                 <div className="venue-number">01 / MONDAY</div>
@@ -395,8 +424,8 @@ function App() {
 
         {page === 'contact' && <section className="section contact-section" id="contact">
           <div className="container contact-grid">
-            <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">Interested in joining, trying a session or finding out more? Get in touch with the club and follow our updates.</p><a className="button button-dark" href={facebookUrl} target="_blank" rel="noreferrer"><Facebook size={17} /> Find us on Facebook <ArrowUpRight size={15} /></a></div>
-            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><p>cmwsbckildare@gmail.com</p></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
+            <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">New members are added via a waitlist. Please don't turn up at a venue; email us or WhatsApp club secretary Teresa to be added.</p><a className="button button-dark" href="mailto:cmwsbckildare@gmail.com"><Mail size={17} /> Email us to join the waitlist <ArrowUpRight size={15} /></a></div>
+            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a></div></div><div className="contact-row"><span className="contact-icon"><MessageCircle /></span><div><small>WHATSAPP · CLUB SECRETARY TERESA</small><a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702 <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
               <div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>TUESDAY & THURSDAY · CMWS HALL</small><p>8:00 PM - 11:00 PM · 1 court<br /><small className="muted">Subject to there being no league games.</small></p></div></div><div className="contact-card-bottom">WE LOOK FORWARD TO MEETING YOU ON COURT.</div></div>
           </div>
         </section>}
