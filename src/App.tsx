@@ -218,12 +218,12 @@ function App() {
         <section className="section intro-section" id="about">
           <div className="container intro-grid">
             <div>
-              <div className="section-kicker">WELCOME TO KILDARE CMWS</div>
+              <div className="section-kicker">WELCOME TO KILDARE CMWS BADMINTON CLUB</div>
               <h2>A club built around<br /><em>the love of badminton.</em></h2>
             </div>
             <div className="intro-text">
               <p>Our aim is to encourage and foster the game of badminton and provide playing opportunities for all levels of play. We value coaching, fair competition, participation and the friendships that grow around the court.</p>
-              <p>Whether your goal is to learn the basics, sharpen your doubles game or represent the club in competition, Kildare CMWS is about enjoying the sport together.</p>
+              <p>Whether your goal is to learn the basics, sharpen your doubles game or represent the club in competition, Kildare CMWS BC is about enjoying the sport together.</p>
               <a className="text-link" href="#/club">Discover the club <ArrowUpRight size={16} /></a>
             </div>
           </div>
@@ -405,7 +405,7 @@ function App() {
           <div className="container">
             <div className="section-heading">
               <div><div className="section-kicker">MOMENTS FROM OUR CLUB</div><h2>Club <em>gallery.</em></h2></div>
-              <p>Celebrating the people, teams and moments that make Kildare CMWS special.</p>
+              <p>Celebrating the people, teams and moments that make Kildare CMWS BC special.</p>
             </div>
             <div className="gallery-grid">
               {galleryImages.map((image, index) => (
