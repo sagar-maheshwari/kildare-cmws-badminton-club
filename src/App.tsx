@@ -47,7 +47,7 @@ const ruleTopics = [
   ['Membership applications', 'Applications are assessed by the committee, with priority given in the order stated in the supplied rules.'],
   ['Club night courts', 'At least two courts will be kept for club play on club nights regardless of match schedules.'],
   ['Club night organisation', 'Club setup and games on club nights are organised by a random selection system.'],
-  ['Team selection', 'Team selections are the responsibility of the committee. Teams may be entered in Southwest leagues and cups.'],
+  ['Team selection', 'Team selections are the responsibility of the committee. Teams may be entered in the Southwest leagues and cups as well as Dublin & District leagues and cups.'],
   ['Team captains', 'Captains coordinate match notifications, score sheets, shuttles, schedule changes, home-match contributions, supper arrangements and result reporting.'],
   ['Respect and fair play', 'Members are expected to treat other members, visitors and property with respect, and to observe fair play at all times.'],
   ['Keeping the club area tidy', 'All members are expected to keep the club area tidy during the club night.'],
