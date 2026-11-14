@@ -472,7 +472,7 @@ function App() {
 
       <footer className="footer">
         <div className="container footer-main"><a className="footer-brand" href="#/home"><img src={`${baseUrl}assets/club-logo.jpg`} alt="" /><span><b>Kildare CMWS</b><small>BADMINTON CLUB</small></span></a><p>Play together. Compete together. Grow together.</p><div className="footer-social"><a href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Facebook"><Facebook /></a><a href="#/home" aria-label="Back to top"><ArrowUpRight /></a></div></div>
-        <div className="container footer-bottom"><span>© {new Date().getFullYear()} Kildare CMWS Badminton Club</span><span className="developer-credit">Website developed by Sagar Maheshwari</span></div>
+        <div className="container footer-bottom"><span>© {new Date().getFullYear()} Kildare CMWS Badminton Club</span><span className="developer-credit">Website by Sagar Maheshwari</span></div>
       </footer>
     </div>
   )

@@ -121,7 +121,7 @@
 }
 
 .developer-credit{font-size:8px;color:#7f8aaa;letter-spacing:.02em}
-@media(max-width:680px){.footer-bottom{flex-wrap:wrap;gap:8px}.developer-credit{width:100%}}
+@media(max-width:680px){.footer-bottom{flex-wrap:nowrap;gap:6px}.footer-bottom span:first-child,.footer-bottom span.developer-credit{white-space:nowrap}.footer-bottom span.developer-credit{display:block;width:auto}}
 
 .nav-links>a[aria-current="page"]:not(.nav-cta){color:var(--red)}
 :focus-visible{outline:3px solid currentColor;outline-offset:3px}
