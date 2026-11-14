@@ -22,17 +22,33 @@ npm run preview
 
 The production website is generated in `dist/`.
 
-## Deploy to GitHub Pages
+## Deploy privately to Cloudflare Pages
 
-The GitHub Actions workflow in `.github/workflows/deploy.yml` builds and deploys
-the site when changes are pushed to `main` or `master`. The Vite base path is
-configured for this repository's project site:
-https://sagar-maheshwari.github.io/kildare-cmws-badminton-club/
+The GitHub repository can stay private while Cloudflare Pages publishes the
+built website publicly. Cloudflare connects to GitHub and automatically builds
+the production branch on each push; no GitHub Actions secrets are needed.
 
-In the repository on GitHub, open **Settings → Pages** and set **Build and
-deployment → Source** to **GitHub Actions**. Then push the project to `main` or
-`master`, or start the workflow manually from the **Actions** tab. The first
-deployment may take a few minutes to become available.
+1. In Cloudflare, open **Workers & Pages → Create application → Pages →
+   Connect to Git**. Authorize Cloudflare's GitHub app for this repository,
+   including private repository access, then select this repo.
+2. Configure the build:
+   - Production branch: `main`
+   - Framework preset: `Vite`
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+   - Environment variable: `NODE_VERSION` = `24`
+3. Create the Pages project. Cloudflare will build it and provide a temporary
+   `*.pages.dev` address.
+4. In the Pages project, open **Custom domains → Set up a domain** and enter
+   `cmwsbckildare.com`. Follow the prompts to attach it. Since the domain is
+   managed in Cloudflare, Cloudflare can configure the DNS record and HTTPS.
+   If you previously added GitHub Pages DNS records for this domain, remove
+   those first so Cloudflare Pages can configure its own record.
+5. To publish updates, push commits to `main`; Cloudflare Pages will build and
+   deploy them automatically.
+
+The production build output is `dist/`. Vite is configured to serve assets from
+the domain root, which is required for the custom domain.
 
 ## Included sections
 

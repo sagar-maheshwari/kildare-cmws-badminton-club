@@ -3,12 +3,21 @@ import {
   Menu, X, ArrowUpRight, ChevronLeft, CalendarDays, Users, Trophy, BookOpen,
   FileText, MapPin, Mail, Facebook, ChevronRight, Download,
   ExternalLink, ShieldCheck, Clock3, Dumbbell, Image as ImageIcon,
-  HeartHandshake, Volleyball, Award, ClipboardList, MessageCircle
+  HeartHandshake, Award, ClipboardList, MessageCircle
 } from 'lucide-react'
 
 const facebookUrl = 'https://www.facebook.com/profile.php?id=100057039956153'
 const curatorFeedScriptUrl = 'https://cdn.curator.io/published/2ad75dc0-e14f-400d-ac31-4615d169b515.js'
 const baseUrl = import.meta.env.BASE_URL
+
+function ShuttlecockIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 3c-.5 4-2 7.5-2 10 0 2.2 3 4 7 4s7-1.8 7-4c0-2.5-1.5-6-2-10" />
+      <path d="m7 3 5 14M10 2l2 15m4-14-4 14m5-14-5 14M8 17l1 4h6l1-4" />
+    </svg>
+  )
+}
 
 const committee = [
   { role: 'Chairperson', name: 'Esther Brady' },
@@ -158,8 +167,8 @@ function App() {
   }, [selectedGalleryIndex])
 
   const navItems = [
-    ['Home', '#/home'], ['Playing schedule', '#/playing'], ['Club', '#/club'], ['Gallery', '#/gallery'], ['Resources', '#/resources'],
-    ['Documents', '#/documents'], ['Contact', '#/contact']
+    ['Home', '#/home'], ['Playing schedule', '#/playing'], ['Club', '#/club'], ['Documents', '#/documents'],
+    ['Gallery', '#/gallery'], ['Resources', '#/resources'], ['Contact', '#/contact']
   ]
 
   return (
@@ -182,7 +191,6 @@ function App() {
           </button>
           <nav id="primary-navigation" className={menuOpen ? 'nav-links open' : 'nav-links'} aria-label="Main navigation">
             {navItems.map(([label, href]) => <a key={label} href={href} onClick={closeMenu} aria-current={href === `#/${page}` ? 'page' : undefined}>{label}</a>)}
-            <a className="nav-cta" href="#/contact" onClick={closeMenu} aria-current={page === 'contact' ? 'page' : undefined}>Get in touch <ArrowUpRight size={15} /></a>
           </nav>
         </div>
       </header>
@@ -258,7 +266,7 @@ function App() {
                 <h3>Kildare Town Community School</h3>
                 <p className="venue-address">Kildare Town, County Kildare</p>
                 <div className="venue-detail"><Clock3 size={17} /><b>8:00 PM - 10:00 PM</b></div>
-                <div className="venue-detail"><Volleyball size={17} /><b>4 courts</b></div>
+                <div className="venue-detail"><ShuttlecockIcon /><b>4 courts</b></div>
                 <span className="venue-tag">MONDAY CLUB NIGHT</span>
               </article>
               <article className="venue-card">
@@ -267,7 +275,7 @@ function App() {
                 <h3>CMWS Hall</h3>
                 <p className="venue-address">Kildare Town, County Kildare</p>
                 <div className="venue-detail"><Clock3 size={17} /><b>8:00 PM - 11:00 PM</b></div>
-                <div className="venue-detail"><Volleyball size={17} /><b>1 court</b></div>
+                <div className="venue-detail"><ShuttlecockIcon /><b>1 court</b></div>
                 <span className="venue-tag">SUBJECT TO LEAGUE FIXTURES</span>
                 <p className="venue-condition">Tuesday and Thursday club play takes place provided there are no league games scheduled.</p>
               </article>
@@ -398,7 +406,6 @@ function App() {
             <article><span>2012 ONWARDS</span><h3>A renewed club</h3><p>After a period when membership declined, the club renewed its focus on promoting badminton and building participation. The club's profile describes the growth of adult and junior sections and teams competing in Dublin District and South-West Leinster leagues and cups.</p></article>
             <article className="history-wide"><span>CLUB LEGACY</span><h3>Players, coaches and achievements</h3><p>The club's archive recognises the contributions of generations of players and volunteers. Esther Brady and Kathleen Kelly are noted for winning multiple Leinster doubles titles, while Esther also represented the county team. Coaching, junior development, club tournaments and social events have all played an important part in the club's story.</p></article>
           </div>
-          <div className="container history-source">History adapted from the club's <a href="https://sites.google.com/site/kildarecmws/about-us/history?authuser=0" target="_blank" rel="noreferrer">historical archive</a> and <a href="https://sites.google.com/site/kildarecmws/about-us?authuser=0" target="_blank" rel="noreferrer">About Us page</a>. Membership figures and team counts from the older profile are historical snapshots, not current totals.</div>
         </section>}
 
         {page === 'gallery' && <section className="section gallery-section">
@@ -425,7 +432,7 @@ function App() {
         {page === 'contact' && <section className="section contact-section" id="contact">
           <div className="container contact-grid">
             <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">New members are added via a waitlist. Please don't turn up at a venue; email us or WhatsApp club secretary Teresa to be added.</p><a className="button button-dark" href="mailto:cmwsbckildare@gmail.com"><Mail size={17} /> Email us to join the waitlist <ArrowUpRight size={15} /></a></div>
-            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><Volleyball size={23} /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a></div></div><div className="contact-row"><span className="contact-icon"><MessageCircle /></span><div><small>WHATSAPP · CLUB SECRETARY TERESA</small><a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702 <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
+            <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><ShuttlecockIcon /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a></div></div><div className="contact-row"><span className="contact-icon"><MessageCircle /></span><div><small>WHATSAPP · CLUB SECRETARY TERESA</small><a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702 <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
               <div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>TUESDAY & THURSDAY · CMWS HALL</small><p>8:00 PM - 11:00 PM · 1 court<br /><small className="muted">Subject to there being no league games.</small></p></div></div><div className="contact-card-bottom">WE LOOK FORWARD TO MEETING YOU ON COURT.</div></div>
           </div>
         </section>}
