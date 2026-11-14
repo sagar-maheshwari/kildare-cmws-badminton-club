@@ -29,13 +29,10 @@
 .venue-address{font-size:11px;color:#bdc5dc;margin-bottom:20px}
 .venue-detail{display:flex;align-items:center;gap:10px;color:#d6dced;margin:11px 0;font-size:12px}
 .venue-detail svg{color:#d98a9e}
-.venue-tag{display:inline-block;margin-top:14px;padding:8px 10px;border:1px solid rgba(255,255,255,.2);font-size:8px;letter-spacing:.13em;color:#e4c4ce}
+.venue-tag{display:block;margin-top:14px;font-size:10px;letter-spacing:.04em;color:#e4c4ce}
 .venue-condition{font-size:10px;line-height:1.6;color:#bdc5dc;margin:12px 0 0}
 .venue-footnote{display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#aeb8d2;font-size:11px;margin-top:22px}
 .venue-footnote a{color:white;text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;gap:3px}
-.venue-photo{height:300px;margin-top:34px;position:relative;overflow:hidden;background:#27345e}
-.venue-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.venue-photo>span{position:absolute;left:18px;bottom:18px;padding:10px 13px;background:rgba(17,26,66,.88);font-size:9px;letter-spacing:.15em;color:white}
 
 /* Resource cards */
 .resources-heading{display:flex;align-items:end;justify-content:space-between;gap:60px;margin-bottom:35px}
@@ -77,7 +74,6 @@
 }
 @media(max-width:680px){
   .venue-grid,.resource-grid{grid-template-columns:1fr}
-  .venue-photo{height:220px}
   .resources-heading{display:block}
   .resources-heading>p{margin-top:16px}
   .resource-card{min-height:230px}
@@ -131,13 +127,7 @@
 :focus-visible{outline:3px solid currentColor;outline-offset:3px}
 
 
-/* Paired venue photo and map: show the building and its location together */
-.venue-visual-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;margin-top:34px;align-items:stretch}
-.venue-visual-grid figure{position:relative;margin:0;min-width:0;height:330px;overflow:hidden;background:#e8edf1;border:1px solid rgba(255,255,255,.18)}
-.venue-photo{margin-top:0}
-.venue-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.venue-map img{width:100%;height:100%;object-fit:contain;display:block;background:#f5f6f7}
-.venue-visual-grid figcaption{position:absolute;left:14px;bottom:14px;padding:9px 12px;background:rgba(17,26,66,.9);color:#fff;font-size:8px;font-weight:800;letter-spacing:.13em}
+.venue-map-frame{display:block;width:100%;height:240px;margin-top:16px;border:0;background:#e8edf1}
 
 /* Direct, descriptive links within each badminton resource card */
 .resource-card{min-width:0}
@@ -149,7 +139,5 @@
 .resource-card p{margin-bottom:18px}
 .resources-source{display:none}
 @media(max-width:680px){
-  .venue-visual-grid{grid-template-columns:1fr}
-  .venue-visual-grid figure{height:250px}
-  .venue-map img{object-fit:contain}
+  .venue-map-frame{height:220px}
 }

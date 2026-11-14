@@ -82,6 +82,11 @@ const galleryImages = [
     alt: 'Division 9 league final winners, 2025',
     caption: 'DDLC Div 9 Mixed League Winners 2025',
   },
+  {
+    src: 'div 8 cup winners 2026.jpg',
+    alt: 'Division 8 cup winners, 2026',
+    caption: 'DDLC Div 8 Mixed Cup Winners 2026',
+  },
 ]
 
 function getPageFromHash(): Page {
@@ -205,7 +210,7 @@ function App() {
           <div className="container hero-content">
             <div className="eyebrow"><span className="eyebrow-dot" /> COMMUNITY · COMPETITION · SPORT</div>
             <h1>More than a game.<br /><em>It's our community.</em></h1>
-            <p className="hero-copy">A welcoming badminton club bringing players together in Kildare. Whether you're picking up a racket for the first time or competing in league matches, there's a place for you here. New members are added via a waitlist, so please contact us before visiting a venue.</p>
+            <p className="hero-copy">A welcoming badminton club bringing players together in Kildare. Whether you're picking up a racket for the first time or competing in league matches, there's a place for you here. New members start by joining our waitlist; get in touch and we'll guide you through the next steps.</p>
             <div className="hero-actions">
               <a className="button button-light" href="#/contact">Get involved <ArrowUpRight size={17} /></a>
               <a className="button button-outline" href="#/playing">Explore the club <ChevronRight size={17} /></a>
@@ -256,7 +261,7 @@ function App() {
               <p>Join us for club badminton in Kildare Town. We use two venues during the week, with league fixtures taking priority on selected evenings.</p>
             </div>
             <aside className="waitlist-notice">
-              <strong>New members: please join our waitlist before visiting a venue.</strong>
+              <strong>We welcome new member enquiries through our waitlist.</strong>
               <span>Email <a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a> or WhatsApp club secretary Teresa at <a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702</a> to be added.</span>
             </aside>
             <div className="venue-grid">
@@ -268,6 +273,14 @@ function App() {
                 <div className="venue-detail"><Clock3 size={17} /><b>8:00 PM - 10:00 PM</b></div>
                 <div className="venue-detail"><ShuttlecockIcon /><b>4 courts</b></div>
                 <span className="venue-tag">MONDAY CLUB NIGHT</span>
+                <iframe
+                  className="venue-map-frame"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5030.162108232653!2d-6.913266151512959!3d53.16738543072107!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485d78b7d25d6b0d%3A0x2565a669ffd78d7a!2sKildare%20Town%20Community%20School!5e0!3m2!1sen!2sie!4v1794696817788!5m2!1sen!2sie"
+                  title="Map showing Kildare Town Community School"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </article>
               <article className="venue-card">
                 <div className="venue-number">02 / TUESDAY & THURSDAY</div>
@@ -278,19 +291,17 @@ function App() {
                 <div className="venue-detail"><ShuttlecockIcon /><b>1 court</b></div>
                 <span className="venue-tag">SUBJECT TO LEAGUE FIXTURES</span>
                 <p className="venue-condition">Tuesday and Thursday club play takes place provided there are no league games scheduled.</p>
+                <iframe
+                  className="venue-map-frame"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1722.318440240205!2d-6.9123383201083195!3d53.155083346098394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485d78d07daaf461%3A0x7f9449f6586c1e9c!2sCMWS%20Hall%20Kildare!5e0!3m2!1sen!2sie!4v1794696849247!5m2!1sen!2sie"
+                  title="Map showing CMWS Hall"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
               </article>
             </div>
             <div className="venue-footnote"><CalendarDays size={15} /> Playing arrangements may vary around league fixtures. Check the club's Facebook page for updates. <a href={facebookUrl} target="_blank" rel="noreferrer">Visit Facebook <ArrowUpRight size={13} /></a></div>
-            <div className="venue-visual-grid" aria-label="CMWS Hall and its location in Kildare Town">
-              <figure className="venue-photo">
-                <img src={`${baseUrl}assets/cmws-hall.jpg`} alt="Exterior of CMWS Hall in Kildare Town" loading="lazy" />
-                <figcaption>CMWS HALL · OUR CLUB VENUE</figcaption>
-              </figure>
-              <figure className="venue-map">
-                <img src={`${baseUrl}assets/cmws-hall-location-map.png`} alt="Map showing the location of CMWS Hall in Kildare Town" loading="lazy" />
-                <figcaption>FIND US · KILDARE TOWN</figcaption>
-              </figure>
-            </div>
           </div>
         </section>}
 
@@ -431,7 +442,7 @@ function App() {
 
         {page === 'contact' && <section className="section contact-section" id="contact">
           <div className="container contact-grid">
-            <div><div className="section-kicker">COME AND SAY HELLO</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">New members are added via a waitlist. Please don't turn up at a venue; email us or WhatsApp club secretary Teresa to be added.</p><a className="button button-dark" href="mailto:cmwsbckildare@gmail.com"><Mail size={17} /> Email us to join the waitlist <ArrowUpRight size={15} /></a></div>
+            <div><div className="section-kicker">START WITH OUR WAITLIST</div><h2>Ready to get<br /><em>in the game?</em></h2><p className="contact-lead">We're delighted you're interested in joining. New members start by joining our waitlist. Email us or WhatsApp club secretary Teresa, and we'll help you with the next steps.</p><a className="button button-dark" href="mailto:cmwsbckildare@gmail.com"><Mail size={17} /> Email us to join the waitlist <ArrowUpRight size={15} /></a></div>
             <div className="contact-card"><div className="contact-card-top"><span>GET IN TOUCH</span><ShuttlecockIcon /></div><div className="contact-row"><span className="contact-icon"><Facebook /></span><div><small>FACEBOOK  </small><a href={facebookUrl} target="_blank" rel="noreferrer">Kildare CMWS Badminton Club <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><Mail /></span><div><small>EMAIL</small><a href="mailto:cmwsbckildare@gmail.com">cmwsbckildare@gmail.com</a></div></div><div className="contact-row"><span className="contact-icon"><MessageCircle /></span><div><small>WHATSAPP · CLUB SECRETARY TERESA</small><a href="https://wa.me/353873627702" target="_blank" rel="noreferrer">087 362 7702 <ArrowUpRight size={13} /></a></div></div><div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>MONDAY · KILDARE TOWN COMMUNITY SCHOOL</small><p>8:00 PM - 10:00 PM · 4 courts</p></div></div>
               <div className="contact-row"><span className="contact-icon"><MapPin /></span><div><small>TUESDAY & THURSDAY · CMWS HALL</small><p>8:00 PM - 11:00 PM · 1 court<br /><small className="muted">Subject to there being no league games.</small></p></div></div><div className="contact-card-bottom">WE LOOK FORWARD TO MEETING YOU ON COURT.</div></div>
           </div>
